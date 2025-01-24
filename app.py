@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly_express as px
 
+st.title('Análisis de Vehículos')
 
 vehicles_df = pd.read_csv('vehicles_us.csv')
 print(vehicles_df)
@@ -18,9 +19,9 @@ if hist_button:  # al hacer clic en el botón
     # mostrar un gráfico Plotly interactivo
     st.plotly_chart(fig, use_container_width=True)
 
-disp_button = st.button('Gráfico de dispersión')
+disp_checkbox = st.checkbox('Gráfico de dispersión')
 
-if disp_button:  # al hacer clic en el botón
+if disp_checkbox:  # al hacer clic en la caja
     # escribir un mensaje
     st.write(
         'Creación de un gráfico de dispersión para el conjunto de datos de anuncios de venta de coches')
@@ -28,10 +29,12 @@ if disp_button:  # al hacer clic en el botón
     # Crear el gráfico
     fig = px.scatter(
         vehicles_df,
-        x='x',
-        y='y',
-        title='Gráfico de dispersión'
+        x='odometer',
+        y='price',
+        color='condition',
+        title='Relación entre precio y Kilometraje',
+        labels={'odometer': 'Kilometraje', 'price': 'Precio ($)'}
     )
 
     # mostrar el gráfico
-    fig.show()
+    st.plotly_chart(fig, use_container_width=True)
